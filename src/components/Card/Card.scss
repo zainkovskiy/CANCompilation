@@ -1,0 +1,112 @@
+.card {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+
+  &:hover {
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  }
+
+  &:hover .card__button {
+    display: block;
+  }
+
+  &__button {
+    display: none;
+  }
+
+  &__img {
+    min-width: 240px;
+    max-width: 240px;
+    height: 173px;
+    object-fit: cover;
+    border-radius: 5px;
+    position: relative;
+    &::before{
+      content: '';
+      background-color: #fff;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    &::after {
+      position: absolute;
+      background-color: #ccc;
+      content:'Photo';
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      font-family: 'Montserrat';
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+
+    &-top {
+      display: grid;
+      grid-template-columns: 300px 1fr 1fr;
+      grid-gap: 1rem;
+      &__address{
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+    }
+  }
+
+  &__text_wrap {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__text {
+    font-size: 12px;
+  }
+
+  &__logo {
+    height: 36.5px;
+  }
+
+  &__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &_wrap {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &__select {
+    position: absolute;
+    display: block;
+    width: 32px;
+    height: 32px;
+    top: 1rem;
+    left: 1rem;
+    border-radius: 50px;
+    background-color: #BBED21;
+    background-image: url("https://crm.centralnoe.ru/dealincom/assets/img/approved.svg");
+    background-size: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
