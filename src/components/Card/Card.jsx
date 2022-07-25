@@ -1,29 +1,63 @@
-import React, { useContext } from 'react';
-// import moment from 'moment';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useContext, useState } from 'react';
+import { motion } from 'framer-motion';
 
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import Link from '@mui/material/Link';
 
-// import MetroIcon from 'images/Metro.svg';
 const placeholderImg = 'https://crm.centralnoe.ru/dealincom/assets/empty_photo.jpg';
 
 import { Context } from 'components/CardContext';
 
 import './Card.scss';
 
+
+
 const cardVarints = {
   visible: {
     opacity: 1,
+    transition: { duration: 0.3 }
   },
   hidden: {
-    opacity: 0
+    opacity: 0,
+    transition: { duration: 0.3 }
   }
+}
+
+const commetnVariants = {
+  full: {
+    height: 'auto',
+    transition: { duration: 0.5 }
+  },
+  start: {
+    height: '45px',
+    transition: { duration: 0.5 }
+  }
+}
+
+const editButton = {
+  position: 'absolute',
+  right: 0,
+  bottom: -2
 }
 
 export function Card({ card, status }) {
   const { comeBack, cancelCard } = useContext(Context);
 
-  const openCard = () => {
+  const [readMore, setReadMore] = useState(false);
+
+  const openCard = (event) => {
+    const tagName = event.target.tagName
+    console.log(tagName);
+    if (tagName === 'BUTTON' || tagName === 'svg' || tagName === 'path') {
+      return
+    }
     BX.SidePanel.Instance.open(`https://crm.centralnoe.ru/cardObject/?login=yes&source=${source}&reqNumber=${card.reqNumber}`, { animationDuration: 300, width: document.getElementById('root').clientWidth })
   }
 
@@ -34,10 +68,12 @@ export function Card({ card, status }) {
   return (
     <motion.div
       className='card'
-      onClick={(event) => event.target.tagName !== 'BUTTON' && openCard()}
+      onClick={(event) => openCard(event)}
       variants={cardVarints}
       initial='hidden'
       animate='visible'
+      exit='hidden'
+      layout
     >
       <img
         alt="photo"
@@ -45,88 +81,114 @@ export function Card({ card, status }) {
         src={card.reqPhoto || placeholderImg}
       />
       <div className='card__info'>
-        <div className='card__info-top'>
-          <div className='card__info-top__address'>
-            {
-              (card?.reqRoomCount || card?.reqTypeofRealty) &&
-              <span className='text'>
-                {card?.reqRoomCount ? `${card?.reqRoomCount}к. ` : ''}
-                {card?.reqTypeofRealty ? `${card?.reqTypeofRealty}` : ''}
-              </span>
-            }
-            {
-              (card?.reqStreet || card?.reqHouseNumber) &&
-              <span className='text'>
-                {card?.reqStreet ? `ул.${card?.reqStreet} ` : ''}
-                {card?.reqHouseNumber ? `д.${card?.reqHouseNumber}` : ''}
-              </span>
-            }
-            <div className='card__text_wrap'>
-              {card?.reqCity && <span className='text card__text'>{card.reqCity}</span>}
-              {card?.reqRayon && <span className='text card__text'>{card.reqRayon}</span>}
-            </div>
-            <div className='card__text_wrap'>
-              {/* {card?.nearMetro && <MetroIcon height={15} width={15} style={{ alignSelf: 'flex-end' }} />} */}
-              {card?.nearMetro && <span className='text card__text'>{card.nearMetro}</span>}
-            </div>
-            {card?.metroDistance && <span className='text card__text'>&#183; {card.metroDistance} мин. пешком</span>}
+        <div className='card__info__type'>
+          <span className='text card__text'>{card?.reqCity && card.reqCity}</span>
+          {
+            (card?.reqRoomCount || card?.reqTypeofRealty) &&
+            <span className='text card__text'>
+              {card?.reqRoomCount ? `${card?.reqRoomCount}к. ` : ''}
+              {card?.reqTypeofRealty ? `${card?.reqTypeofRealty}` : ''}
+            </span>
+          }
+        </div>
+        {
+          (card?.reqStreet || card?.reqHouseNumber) &&
+          <span className='text'>
+            {card?.reqStreet ? `ул.${card?.reqStreet} ` : ''}
+            {card?.reqHouseNumber ? `д.${card?.reqHouseNumber}` : ''}
+          </span>
+        }
+        <div className='card__info__wrap'>
+          <div className='card__text_wrap'>
+            {card?.reqFlatTotalArea && <span className='text card__text'>Общая площадь</span>}
+            {card?.reqFlatTotalArea && <span className='text'>{card.reqFlatTotalArea}м<sup>2</sup></span>}
           </div>
-          <div>
-            <div>
-              {card?.reqFlatTotalArea && <span className='text'>{card.reqFlatTotalArea}/</span>}
-              {card?.reqFlatLivingArea && <span className='text'>{card.reqFlatLivingArea}/</span>}
-              {card?.reqKitchenArea && <span className='text'>{card.reqKitchenArea}</span>}
-            </div>
-            <div className='card__text_wrap card__text'>
-              {card?.reqFloor && card?.reqFloors && <span className='text'>{card.reqFloor}/{card.reqFloors}эт.</span>}
-            </div>
-          </div>
-          <div style={{ justifySelf: 'end' }}>
-            <div className='card__text_wrap'>
-              {card?.reqPrice && <span className='text'>{card.reqPrice} тыс. ₽</span>}
-            </div>
-            <div className='card__text_wrap card__text'>
-              {(card?.reqPrice && card?.reqFlatTotalArea && card?.reqFlatTotalArea !== 'Земельный участок') && <span className='text'>{((+card.reqPrice / +card.reqFlatTotalArea) * 1000).toFixed(0)} ₽/кв.м</span>}
-            </div>
+          <div className='card__text_wrap'>
+            {card?.reqPrice &&
+              <div className='card__text-button'>
+                <span className='text' style={{ marginRight: 30 }}>
+                  {card.reqPrice} тыс. ₽
+                </span>
+                <IconButton
+                  size='small'
+                  sx={editButton}
+                >
+                  <BorderColorIcon
+                    color='info'
+                    fontSize='10'
+                  />
+                </IconButton>
+              </div>}
+
+            {(card?.reqPrice && card?.reqFlatTotalArea && card?.reqFlatTotalArea !== 'Земельный участок') && <span className='text card__text'>{((+card.reqPrice / +card.reqFlatTotalArea) * 1000).toFixed(0)} ₽/кв.м</span>}
           </div>
         </div>
-        <div className='card__bottom'>
+        <div className='card__description'>
+          <div className='card__text-button'>
+            <span className='card__text text' style={{ fontWeight: 700, color: 'grey', marginRight: 30 }}>
+              Комментарий
+            </span>
+            <IconButton
+              size='small'
+              sx={editButton}
+            >
+              <BorderColorIcon
+                color='info'
+                fontSize='10'
+              />
+            </IconButton>
+          </div>
+          <motion.span
+            className={`card__comment text card__text ${card?.reqComment?.length > 90 ? readMore ? '' : 'card__comment_hidden' : ''}`}
+            variants={commetnVariants}
+            animate={readMore ? 'full' : 'start'}
+            initial='start'
+          >
+            {card?.reqComment ? card.reqComment : 'Коментарий отсутствует'}
+          </motion.span>
+          {
+            (card?.reqComment && card.reqComment.length > 90) ?
+              <Link
+                onClick={() => setReadMore(!readMore)}
+                underline="none"
+                sx={{ fontSize: 12, fontFamily: 'Montserrat' }}
+              >
+                {readMore ? 'Показать меньше' : 'Показать больше'}
+              </Link> :
+              <span style={{ height: 15 }}></span>
+          }
+        </div>
+        <div className='card__bottom_wrap'>
           <div className='card__bottom_wrap'>
-            <div>
-              <div className='card__button'>
-                <Button
+            {
+              card?.view ?
+                <VisibilityIcon color='primary' /> :
+                <VisibilityOutlinedIcon color='action' />
+            }
+            {
+              card?.like ?
+                <ThumbUpIcon color='primary' /> :
+                <ThumbUpOffAltIcon color='action' />
+            }
+          </div>
+          <IconButton
+            size='small'
+            color={status === 'cancel' ? 'success' : 'error'}
+          >
+            {
+              status === 'cancel' ?
+                <ArrowCircleUpIcon
+                  color='success'
                   onClick={handlerClick}
-                  variant="outlined"
-                  color={ status === 'cancel' ? 'success' : "error" }
-                >
-                  {
-                    status === 'cancel' ? 'вернуть' : 'отменить'
-                  }
-                </Button>
-              </div>
-            </div>
-            <img className="card__logo" src={card.reqLogo} alt="logo" />
-          </div>
-          <div className='card__bottom_wrap'>
-            {card?.reqDocType && <span className='text card__text'>{card.reqDocType}</span>}
-            {card?.createtime && <span className='text card__text'>
-              {/* Актуализировано {moment(card.createtime).locale('ru').format('DD MMMM YYYY')} */}
-            </span>}
-          </div>
+                /> :
+                <DoDisturbIcon
+                  color='error'
+                  onClick={handlerClick}
+                />
+            }
+          </IconButton>
         </div>
       </div>
-      {/* <AnimatePresence initial={false}>
-        {
-          hasFromBasket() &&
-          <motion.span
-            className='card__select'
-            initial={{ scale: 0 }}
-            exit={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.2 }}
-          ></motion.span>
-        }
-      </AnimatePresence> */}
     </motion.div>
   )
 }

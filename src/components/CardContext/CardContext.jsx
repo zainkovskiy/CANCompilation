@@ -8,7 +8,10 @@ export const CardContext = (props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [cards, setCards] = useState(null);
+  const [filtredCards, setFiltredCards] = useState(null);
   const [cardsCanceled, setCardsCanceled] = useState(null);
+  const [countVeiwes, setCountVeiwes] = useState(null);
+  const [countLiked, setCountLiked] = useState(null);
 
   useEffect(() => {
     getCards();
@@ -35,12 +38,7 @@ export const CardContext = (props) => {
           },
           "source": "1c"
         })
-      if (res?.data) {
-        sortCards(res.data);
-      } else {
-        setCards([])
-        setCardsCanceled([])
-      }
+      res?.data?.length > 0 && sortCards(res.data);
     } catch (err) {
       console.log(err);
       setError(true);
@@ -52,6 +50,8 @@ export const CardContext = (props) => {
   const sortCards = (cards) => {
     const cardsCompilationBySort = [];
     const cardsCanceledBySort = [];
+    const countVeiwes = 0;
+    const countLiked = 0;
 
     cards.forEach(card => {
       if (!card?.cancel){
@@ -59,9 +59,20 @@ export const CardContext = (props) => {
       } else {
         cardsCanceledBySort.push(card);
       }
-      setCards(cardsCompilationBySort);
-      setCardsCanceled(cardsCanceledBySort);
+
+      if (card.viewes > 0) {
+        countVeiwes++
+      }
+
+      if (+card.likes === 1) {
+        countLiked++;
+      }
     })
+    setCards(cardsCompilationBySort);
+    setFiltredCards(cardsCompilationBySort);
+    setCardsCanceled(cardsCanceledBySort);
+    setCountVeiwes(countVeiwes);
+    setCountLiked(countLiked);
   }
 
   const comeBack = (card) => {
@@ -80,8 +91,11 @@ export const CardContext = (props) => {
   const value = {
     cards,
     cardsCanceled,
+    filtredCards,
     comeBack,
     cancelCard,
+    countVeiwes,
+    countLiked
   }
   return (
     <Context.Provider value={value}>

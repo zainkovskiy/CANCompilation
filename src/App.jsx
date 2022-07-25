@@ -2,8 +2,9 @@ import React from 'react';
 
 import { Header } from 'components/Header';
 import { Title } from 'components/Title';
-import { Cards } from 'components/Cards';
+import { CardsLayout } from 'components/CardsLayout';
 import { CardContext } from 'components/CardContext';
+import { StatusBar } from 'components/StatusBar';
 
 import './App.scss';
 
@@ -13,7 +14,8 @@ export function App() {
       <Header />
       <Title title='Подборки' />
       <CardContext>
-        <Cards />
+        <StatusBar />
+        <CardsLayout />
       </CardContext>
     </>
   )

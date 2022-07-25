@@ -1,9 +1,13 @@
 .subtitle{
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   box-sizing: border-box;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border: 1px solid #484848;
   border-radius: 5px;
-  font-family: 'Montserrat', sans-serif;
+  &__text{
+    font-family: 'Montserrat', sans-serif;
+  }
 }
