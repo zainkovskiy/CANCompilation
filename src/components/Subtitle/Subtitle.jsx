@@ -8,18 +8,22 @@ export function Subtitle({ subtitle, link, path, name }) {
   return (
     <div className="subtitle" name={name}>
       <span className="subtitle__text">{subtitle}</span>
-      <LinkMUI
-        underline="none"
-        sx={{ fontSize: 12, fontFamily: 'Montserrat', cursor: 'pointer' }}
-      >
-        <Link
-          to={path}
-          smooth={true}
-          duration={500}
+      {
+        link &&
+        <LinkMUI
+          component="button"
+          underline="none"
+          sx={{ fontSize: 12, fontFamily: 'Montserrat', cursor: 'pointer' }}
         >
-          {link}
-        </Link>
-      </LinkMUI>
+          <Link
+            to={path}
+            smooth={true}
+            duration={500}
+          >
+            {link}
+          </Link>
+        </LinkMUI>
+      }
     </div>
   )
 }

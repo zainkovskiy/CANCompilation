@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { AnimateSharedLayout } from 'framer-motion';
 import { Element } from 'react-scroll';
 
 import { Cards } from 'components/Cards';
@@ -10,7 +9,7 @@ export function CardsLayout() {
   const { filtredCards, cardsCanceled } = useContext(Context);
 
   return (
-    <AnimateSharedLayout>
+    <>
       {
         filtredCards.length > 0 &&
         <>
@@ -33,7 +32,7 @@ export function CardsLayout() {
             <Subtitle 
             subtitle='Отмененые' 
             path='compilation'
-            link='К подборке'
+            link={ filtredCards.length > 0 ? 'К подборке' : '' }
             name='cancel'
             />
           </Element>
@@ -43,6 +42,6 @@ export function CardsLayout() {
           />
         </>
       }
-    </AnimateSharedLayout>
+    </>
   )
 }
