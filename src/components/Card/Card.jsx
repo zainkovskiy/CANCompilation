@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -95,18 +96,18 @@ export function Card({ card, status }) {
 
   const handlerOpen = (component) => {
     if (component === 'price') {
-      setChildrenComponent(<ModalEditPrice 
+      setChildrenComponent(<ModalEditPrice
         onClose={handlerClose}
-        currentPrice={ card.price }
-        uid={ card.UID }
+        currentPrice={card.price}
+        uid={card.UID}
       />)
       return
     }
     if (component === 'comment') {
-      setChildrenComponent(<ModalEditComment 
+      setChildrenComponent(<ModalEditComment
         onClose={handlerClose}
-        currentComment={ card.comment}
-        uid={ card.UID }
+        currentComment={card.comment}
+        uid={card.UID}
       />)
       return
     }
@@ -200,16 +201,28 @@ export function Card({ card, status }) {
           </div>
           <div className='card__bottom_wrap'>
             <div className='card__bottom_wrap'>
-              {
-                +card?.viewes > 0 ?
-                  <VisibilityIcon color='primary' /> :
-                  <VisibilityOutlinedIcon color='action' />
-              }
-              {
-                +card?.likes === 1 ?
-                  <ThumbUpIcon color='primary' /> :
-                  <ThumbUpOffAltIcon color='action' />
-              }
+              <Tooltip
+                title="Количество просмотров"
+                placement="top"
+                arrow
+              >
+                {
+                  +card?.viewes > 0 ?
+                    <VisibilityIcon color='primary' /> :
+                    <VisibilityOutlinedIcon color='action' />
+                }
+              </Tooltip>
+              <Tooltip
+                title="Количество лайков"
+                placement="top"
+                arrow
+              >
+                {
+                  +card?.likes === 1 ?
+                    <ThumbUpIcon color='primary' /> :
+                    <ThumbUpOffAltIcon color='action' />
+                }
+              </Tooltip>
             </div>
             <div className='card__bottom_wrap' style={{ gap: 0 }}>
               <AnimatePresence>
@@ -226,13 +239,25 @@ export function Card({ card, status }) {
                   >
                     {
                       hasInAct ?
-                        <CheckCircleOutlineIcon
-                          color='success'
-                        />
+                        <Tooltip
+                          title="Убрать из подборки клиента"
+                          placement="top"
+                          arrow
+                        >
+                          <CheckCircleOutlineIcon
+                            color='success'
+                          />
+                        </Tooltip>
                         :
-                        <AddCircleOutlineIcon
-                          color='info'
-                        />
+                        <Tooltip
+                          title="Добавить в подборку клиента"
+                          placement="top"
+                          arrow
+                        >
+                          <AddCircleOutlineIcon
+                            color='info'
+                          />
+                        </Tooltip>
                     }
                   </IconButton>
                 </motion.div>
@@ -251,12 +276,24 @@ export function Card({ card, status }) {
                   >
                     {
                       status === 'cancel' ?
-                        <ArrowCircleUpIcon
-                          color='success'
-                        /> :
-                        <DoDisturbIcon
-                          color='error'
-                        />
+                        <Tooltip
+                          title="Вернуть"
+                          placement="top"
+                          arrow
+                        >
+                          <ArrowCircleUpIcon
+                            color='success'
+                          />
+                        </Tooltip> :
+                        <Tooltip
+                          title="Отменить"
+                          placement="top"
+                          arrow
+                        >
+                          <DoDisturbIcon
+                            color='error'
+                          />
+                        </Tooltip>
                     }
                   </IconButton>
                 </motion.div>

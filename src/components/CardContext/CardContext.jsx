@@ -29,7 +29,7 @@ export const CardContext = (props) => {
       const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Servers/Filter/Selection.php',
         {
           action: 'getDeal',
-          entityId: 4158
+          entityId: dealId || 4158
         })
       res?.data?.length > 0 && sortCards(res.data), setCountValue(res.data), setCards(res.data);
     } catch (err) {
