@@ -12,7 +12,7 @@ export function Cards({ cards, status }) {
         {
           cards.map(card =>
             <Card
-              key={card.reqNumber}
+              key={card.UID}
               card={card}
               status={status}
             />

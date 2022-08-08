@@ -7,6 +7,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
+import { getAct } from '../Api';
 import { Context } from 'components/CardContext';
 
 const statusBar = {
@@ -33,7 +34,14 @@ export function ContollerBar() {
   const handleChange = (event, newAlignment) => {
     setFilter(newAlignment);
   };
-
+  
+  const handleClick = (action) => {
+    handleClose();
+    if (action === 'act'){
+      getAct(cardsAct);
+      return
+    }
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -67,7 +75,7 @@ export function ContollerBar() {
         >
           {
             cardsAct.length > 0 &&
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={() => handleClick('act')}>
               Сформировать акт
             </MenuItem>
           }

@@ -26,14 +26,14 @@ export const CardContext = (props) => {
 
   const getCards = async () => {
     try {
-      const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Servers/Filter/Selection.php',
-        {
-          action: 'getDeal',
-          entityId: dealId || 69352
-        })
+      const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Servers/Filter/Selection.php',{
+        action: 'getDeal',
+        entityId: dealId || 69352
+        // entityId:  69352
+      })
+      console.log(res);
       res?.data?.length > 0 && sortCards(res.data), setCountValue(res.data), setCards(res.data);
     } catch (err) {
-      console.log(err);
       setError(true);
     } finally {
       setLoading(false);
@@ -56,8 +56,8 @@ export const CardContext = (props) => {
   }
 
   const setCountValue = (cards) => {
-    const countVeiwes = 0;
-    const countLiked = 0;
+    let countVeiwes = 0;
+    let countLiked = 0;
 
     cards.forEach(card => {
       if (+card.viewes > 0) {

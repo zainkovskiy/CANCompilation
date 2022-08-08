@@ -87,7 +87,7 @@ export function Card({ card, status }) {
     if (tagName === 'BUTTON' || tagName === 'svg' || tagName === 'path' || tagName === 'A') {
       return
     }
-    BX.SidePanel.Instance.open(`https://crm.centralnoe.ru/cardObject/?login=yes&source=${source}&reqNumber=${card.reqNumber}`, { animationDuration: 300, width: document.getElementById('root').clientWidth })
+    BX.SidePanel.Instance.open(`https://crm.centralnoe.ru/cardObject/?login=yes&source=${card.source}&reqNumber=${card.reqNumber}`, { animationDuration: 300, width: document.getElementById('root').clientWidth })
   }
 
   const handlerClick = () => {
