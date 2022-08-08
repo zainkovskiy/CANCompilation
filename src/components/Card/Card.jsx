@@ -240,7 +240,7 @@ export function Card({ card, status }) {
                     {
                       hasInAct ?
                         <Tooltip
-                          title="Убрать из подборки клиента"
+                          title="Убрать из акта"
                           placement="top"
                           arrow
                         >
@@ -250,7 +250,7 @@ export function Card({ card, status }) {
                         </Tooltip>
                         :
                         <Tooltip
-                          title="Добавить в подборку клиента"
+                          title="Добавить в акт"
                           placement="top"
                           arrow
                         >
