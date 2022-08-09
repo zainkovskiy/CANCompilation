@@ -7,7 +7,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import { getAct } from '../Api';
+import { getAct, sendSMS } from '../Api';
 import { Context } from 'components/CardContext';
 
 const statusBar = {
@@ -39,6 +39,10 @@ export function ContollerBar() {
     handleClose();
     if (action === 'act'){
       getAct(cardsAct);
+      return
+    }
+    if (action === 'sms'){
+      sendSMS();
       return
     }
   };
@@ -82,7 +86,7 @@ export function ContollerBar() {
           <MenuItem onClick={handleClose}>
             Скопировать ссылку
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={() => handleClick('sms')}>
             Отправить СМС
           </MenuItem>
         </Menu>
