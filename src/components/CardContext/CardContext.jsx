@@ -19,6 +19,7 @@ export const CardContext = (props) => {
   const [cardsAct, setCardsAct] = useState([]);
   const [countVeiwes, setCountVeiwes] = useState(null);
   const [countLiked, setCountLiked] = useState(null);
+  const [phoneList, setPhoneList] = useState(null);
 
   useEffect(() => {
     getCards();
@@ -32,7 +33,7 @@ export const CardContext = (props) => {
         // entityId:  69352
       })
       console.log(res);
-      res?.data?.length > 0 && sortCards(res.data), setCountValue(res.data), setCards(res.data);
+      res?.data?.data?.length > 0 && sortCards(res.data.data), setCountValue(res.data.data), setCards(res.data.data), setPhoneList(res.data.phones);
     } catch (err) {
       setError(true);
     } finally {
@@ -138,6 +139,7 @@ export const CardContext = (props) => {
     countVeiwes,
     filtredCards,
     cardsCanceled,
+    phoneList
   }
   return (
     <Context.Provider value={value}>
