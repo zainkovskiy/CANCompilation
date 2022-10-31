@@ -33,10 +33,10 @@ export async function sendSMS(selectPhone) {
   }
 }
 
-export async function getAct(arrCards) {
-  const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Filter/Selections/Akt.php', {
-    selection: arrCards,
-  }, { responseType: 'blob' })
+export async function getFile(raw) {
+  const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Filter/Selections/Akt.php', 
+  raw, 
+  { responseType: 'blob' })
   if (res.status === 200 && res.statusText === "OK") {
     const url = window.URL.createObjectURL(new Blob([res.data]));
     const name = res.headers['content-disposition'].split('filename=')[1];

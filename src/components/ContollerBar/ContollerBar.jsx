@@ -10,7 +10,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import { getAct } from '../Api';
+import { getFile } from '../Api';
 import { Context } from 'components/CardContext';
 import { ModalWindow } from 'components/ModalWindow';
 import { ModalSelectPhone } from 'components/ModalSelectPhone';
@@ -54,13 +54,27 @@ export function ContollerBar() {
     handleClose();
     setOpenModal(!openModal);
   }
-  const handleDownloadAct = () => {
-    handleClose();
-    getAct(cardsAct);
-  }
+
   const handleCopyLink = () => {
     handleClose();
     setSnackOpen(!snackOpen);
+  }
+
+  const handleGetFile = (source) => {
+    handleClose();
+    if (source === 'act') {
+      getFile({
+        selection: arrCards,
+      })
+      return
+    }
+    if (source === 'agency') {
+      getFile({
+        action: 'getDOU',
+        dealId: dealId,
+      })
+      return
+    }
   }
 
   return (
@@ -89,7 +103,7 @@ export function ContollerBar() {
         >
           {
             cardsAct.length > 0 &&
-            <MenuItem onClick={handleDownloadAct}>
+            <MenuItem onClick={() => handleGetFile('act')}>
               Сформировать акт
             </MenuItem>
           }
@@ -107,6 +121,9 @@ export function ContollerBar() {
               Отправить СМС
             </MenuItem>
           }
+          <MenuItem onClick={() => handleGetFile('agency')}>
+            Шаблон ДОУ
+          </MenuItem>
         </Menu>
       </div>
       <Snackbar
