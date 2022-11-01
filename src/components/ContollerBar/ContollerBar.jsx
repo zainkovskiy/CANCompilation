@@ -10,7 +10,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import { getFile } from '../Api';
+import { getAct, getDOU } from '../Api';
 import { Context } from 'components/CardContext';
 import { ModalWindow } from 'components/ModalWindow';
 import { ModalSelectPhone } from 'components/ModalSelectPhone';
@@ -60,21 +60,19 @@ export function ContollerBar() {
     setSnackOpen(!snackOpen);
   }
 
-  const handleGetFile = (source) => {
+  const handleGetAct = () => {
     handleClose();
-    if (source === 'act') {
-      getFile({
-        selection: arrCards,
-      })
-      return
-    }
-    if (source === 'agency') {
-      getFile({
-        action: 'getDOU',
-        dealId: dealId,
-      })
-      return
-    }
+    getAct({
+      selection: arrCards,
+    })
+  }
+
+  const handleGetDOU = () => {
+    handleClose();
+    getDOU({
+      action: 'getDOU',
+      packUID: dealId,
+    });
   }
 
   return (
@@ -103,7 +101,7 @@ export function ContollerBar() {
         >
           {
             cardsAct.length > 0 &&
-            <MenuItem onClick={() => handleGetFile('act')}>
+            <MenuItem onClick={handleGetAct}>
               Сформировать акт
             </MenuItem>
           }
@@ -121,7 +119,7 @@ export function ContollerBar() {
               Отправить СМС
             </MenuItem>
           }
-          <MenuItem onClick={() => handleGetFile('agency')}>
+          <MenuItem onClick={handleGetDOU}>
             Шаблон ДОУ
           </MenuItem>
         </Menu>

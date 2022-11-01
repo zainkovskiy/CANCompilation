@@ -33,7 +33,7 @@ export async function sendSMS(selectPhone) {
   }
 }
 
-export async function getFile(raw) {
+export async function getAct(raw) {
   const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Filter/Selections/Akt.php', 
   raw, 
   { responseType: 'blob' })
@@ -43,6 +43,19 @@ export async function getFile(raw) {
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', name);
+    document.body.appendChild(link);
+    link.click();
+  }
+}
+
+export const getDOU = async (raw) => {
+  const res = await axios.post('https://crm.centralnoe.ru/dealincom/templates/pokaz.php', 
+  raw)
+  if (res.status === 200 && res.statusText === "OK") {
+    const url = res.data;
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'akt_pokaza');
     document.body.appendChild(link);
     link.click();
   }
