@@ -33,7 +33,7 @@ export const CardContext = (props) => {
         'https://hs-01.centralnoe.ru/Project-Selket-Main/Servers/Filter/Selection.php',
         {
           action: 'getDeal',
-          entityId: dealId || 69352,
+          entityId: dealId,
           // entityId:  69352
         }
       );
