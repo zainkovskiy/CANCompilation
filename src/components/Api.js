@@ -48,18 +48,29 @@ export async function getAct(raw) {
   }
 }
 
-export const getDOU = async (raw) => {
-  const res = await axios.post('https://crm.centralnoe.ru/dealincom/templates/pokaz.php',
-    raw)
-    console.log(res)
-  if (res.status === 200 && res.statusText === "OK") {
-    // const url = res.data;
-    // const url = 'https://crm.centralnoe.ru/bitrix/services/main/ajax.php?action=documentgenerator.api.document.getfile&SITE_ID=s1&id=17814&ts=1667805301';
-    // const link = document.createElement('a');
-    // link.href = url;
-    // link.setAttribute('download', 'akt_pokaza');
-    // document.body.appendChild(link);
-    // link.click();
-    document.location.href = res.data;
+export const getDOU = (raw, callback) => {
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', 'https://crm.centralnoe.ru/dealincom/templates/pokaz.php');
+  xhr.responseType = 'json';
+  xhr.send(JSON.stringify(raw));
+  xhr.onload = () => {
+    callback(xhr.response.URL)
   }
+
+
+  // const res = await axios.post('https://crm.centralnoe.ru/dealincom/templates/pokaz.php',
+  //   raw)
+  // if (res.status === 200 && res.statusText === "OK") {
+  //   // const url = res.data;
+  //   // const url = 'https://crm.centralnoe.ru/bitrix/services/main/ajax.php?action=documentgenerator.api.document.getfile&SITE_ID=s1&id=17814&ts=1667805301';
+  //   // const link = document.createElement('a');
+  //   // link.href = url;
+  //   // link.setAttribute('download', 'akt_pokaza');
+  //   // document.body.appendChild(link);
+  //   // link.click();
+
+  //   // document.location.href = res.data;
+  //   console.log(res);
+  //   return res.data
+  // }
 }

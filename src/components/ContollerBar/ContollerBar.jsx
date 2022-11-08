@@ -14,6 +14,7 @@ import { getAct, getDOU } from '../Api';
 import { Context } from 'components/CardContext';
 import { ModalWindow } from 'components/ModalWindow';
 import { ModalSelectPhone } from 'components/ModalSelectPhone';
+import { ModalDownloadDou } from 'components/ModalDownloadDou';
 
 const statusBar = {
   display: 'flex',
@@ -25,6 +26,8 @@ const statusBar = {
 export function ContollerBar() {
   const { cards, countVeiwes, countLiked, applyFilter, cardsAct, phoneList } = useContext(Context);
   const [openModal, setOpenModal] = useState(false);
+  const [openDou, setOpenDou] = useState(false);
+  const [linkDou, setLinkDou] = useState('');
   const [snackOpen, setSnackOpen] = useState(false);
   const [filter, setFilter] = useState('all')
   const [anchorEl, setAnchorEl] = useState(null);
@@ -55,6 +58,10 @@ export function ContollerBar() {
     setOpenModal(!openModal);
   }
 
+  const handleOpenModalDou = () => {
+    setOpenDou(!openDou);
+  }
+
   const handleCopyLink = () => {
     handleClose();
     setSnackOpen(!snackOpen);
@@ -72,6 +79,10 @@ export function ContollerBar() {
     getDOU({
       action: 'getDOU',
       packUID: dealId,
+      // packUID: 69352,
+    }, (link) => {
+      setLinkDou(link);
+      handleOpenModalDou();
     });
   }
 
@@ -134,15 +145,29 @@ export function ContollerBar() {
           Ссылка успешно скопирована
         </Alert>
       </Snackbar>
-      <ModalWindow
-        open={openModal}
-        onClose={handleOpenModal}
-      >
-        <ModalSelectPhone
-          phoneList={phoneList}
+      {
+        openModal &&
+        <ModalWindow
+          open={openModal}
           onClose={handleOpenModal}
-        />
-      </ModalWindow>
+        >
+          <ModalSelectPhone
+            link={linkDou}
+            onClose={handleOpenModal}
+          />
+        </ModalWindow>
+      }
+      {
+        openDou &&
+        <ModalWindow
+          open={openDou}
+          onClose={handleOpenModalDou}
+        >
+          <ModalDownloadDou
+            link={linkDou}
+          />
+        </ModalWindow>
+      }
     </div>
   )
 }
