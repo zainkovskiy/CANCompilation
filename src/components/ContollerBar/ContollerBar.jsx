@@ -70,7 +70,7 @@ export function ContollerBar() {
   const handleGetAct = () => {
     handleClose();
     getAct({
-      selection: arrCards,
+      selection: cardsAct,
     })
   }
 
