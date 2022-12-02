@@ -22,6 +22,8 @@ const statusBar = {
   gap: '0.5rem',
 }
 
+// const dealId = 93837;
+
 
 export function ContollerBar() {
   const { cards, countVeiwes, countLiked, applyFilter, cardsAct, phoneList } = useContext(Context);
@@ -79,7 +81,7 @@ export function ContollerBar() {
     getDOU({
       action: 'getDOU',
       packUID: dealId,
-      // packUID: 69352,
+      // packUID: 93837,
     }, (link) => {
       setLinkDou(link);
       handleOpenModalDou();
@@ -152,7 +154,7 @@ export function ContollerBar() {
           onClose={handleOpenModal}
         >
           <ModalSelectPhone
-            link={linkDou}
+            phoneList={phoneList}
             onClose={handleOpenModal}
           />
         </ModalWindow>

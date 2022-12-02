@@ -34,7 +34,7 @@ export const CardContext = (props) => {
         {
           action: 'getDeal',
           entityId: dealId,
-          // entityId:  69352
+          // entityId:  93837
         }
       );
       console.log(res);
